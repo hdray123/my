@@ -1,3 +1,4 @@
+```c++
 SYSCALL_DEFINE5(mysetnice,pid_t,pid,int,flag ,int,nicevalue,void __user *,prio,void __user *,nice)
 {
 	if(pid < 0 || (flag != 1 && flag != 0)){
