@@ -1,0 +1,76 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 30.294
+  longitude: 120.1619
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Asia/Shanghai
+  # Customization file
+  customize: !include customize.yaml
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Discover some devices automatically
+discovery:
+
+mqtt:
+  broker: 192.168.43.85
+  port: 1883
+  username: hachina
+  password: 123456 
+
+light: 
+  - platform: mqtt
+    name: laserLight
+    command_topic: "home-assistant/light_set"
+    state_topic: "home-assistant/light_state"
+    optimistic: false
+
+switch: 
+  - platform: mqtt
+    name: door
+    command_topic: "home-assistant/door_set"
+    state_topic: "home-assistant/door_state"
+    optimistic: false
+
+
+# Sensors
+sensor:
+  - platform: mqtt
+    state_topic: "home-assistant/DHT22/humidity"
+    name: 'hum'
+    qos: 0
+    unit_of_measurement: "%"
+
+
+  - platform: mqtt
+    state_topic: "home-assistant/DHT22/temperature"
+    name: 'temp'
+    qos: 0
+    unit_of_measurement: "ºC"
+
+camera:
+  - platform: ffmpeg
+    name: ctsxt
+    input: /dev/video0
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+molohub:
+  dismissable: true  # 默认状态下忽略按钮不可用,添加此行来激活忽略按钮.
