@@ -59,6 +59,11 @@ sensor:
     qos: 0
     unit_of_measurement: "ºC"
 
+
+camera:
+  - platform: mjpeg
+    mjpeg_url: http://192.168.2.101:8080?action=stream
+    name: camera
 camera:
   - platform: ffmpeg
     name: ctsxt
